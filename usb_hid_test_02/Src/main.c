@@ -171,6 +171,9 @@ int main(void)
 	SPI1->CR1 |= SPI_CR1_SPE;
 	// enable spi1
 	SPI2->CR1 |= SPI_CR1_SPE;
+	// enable adc1
+	ADC1->CR |= ADC_CR_ADEN;
+
 
 
 	configure_adas1000();
@@ -210,7 +213,7 @@ int main(void)
 	  heart_rate_calculation_task();
 	  acc_data_read_task();
 	  movement_detection_task();
-	  //temperature_measure_task();
+	  temperature_measure_task();
 	  diagnosticsTask();
 
 
