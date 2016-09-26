@@ -1,0 +1,8 @@
+.metadata/**/*
+RemoteSystemsTempFiles/**/*
+**/*.[od]
+**/*.elf
+**/*.map
+**/*.bin
+**/*.list
+
