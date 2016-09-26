@@ -15,7 +15,7 @@ void diagnost_init()
 	DIAGNOSTICSINTERVAL = 2;
 	tachiThreshold = TACHYTHRESHOLD;
 
-	yellowCounter = redCounter = 0;
+	yellowCounter = redCounter = blackCounter = 0;
 	state = previousState = 0;
 
 	recreationPeriodPending = 0;
@@ -149,6 +149,11 @@ void makeDiagnosis(int pulse, int walkingDetected, int runningDetected,
 	{
 		status = 1;
 	}
+	else if(pulse == 0) // asistoly
+	{
+		//printf ("OPERATOR_CONDITION %d\r\n", 3);	// hard wounded
+		status = 4;
+	}
 	else if(pulse < HARDBRADYTHRESHOLD) // hard bradycardia
 	{
 		//printf ("OPERATOR_CONDITION %d\r\n", 3);	// hard wounded
@@ -183,18 +188,28 @@ void makeDiagnosis(int pulse, int walkingDetected, int runningDetected,
 	else // pulse >= 300
 	status = 0;
 
-	if(status == 3)
+	if(status == 4)
 	{
+		blackCounter++;
+		redCounter = 0;
+		yellowCounter = 0;
+	}
+	else if(status == 3)
+	{
+		blackCounter = 0;
 		redCounter++;
 		yellowCounter = 0;
+
 	}
 	else if(status == 2)
 	{
+		blackCounter = 0;
 		redCounter = 0;
 		yellowCounter++;
 	}
 	else
 	{
+		blackCounter = 0;
 		redCounter = 0;
 		yellowCounter = 0;
 	}
@@ -210,6 +225,11 @@ void makeDiagnosis(int pulse, int walkingDetected, int runningDetected,
 	{
 		 redCounter = numberOfRepeatingStatesToSwitch;
 		 state = 3;
+	}
+	else if(blackCounter >= numberOfRepeatingStatesToSwitch)	// хочет почернеть
+	{
+		blackCounter = numberOfRepeatingStatesToSwitch;
+		state = 4;
 	}
 	else if(status == 1)
 	{

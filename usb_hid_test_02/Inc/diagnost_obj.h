@@ -38,6 +38,7 @@ int tachiThreshold;
 
 int yellowCounter;
 int redCounter;
+int blackCounter;
 
 int state, previousState;
 
