@@ -282,7 +282,7 @@ __ALIGN_BEGIN static uint8_t HID_MOUSE_ReportDesc[HID_MOUSE_REPORT_DESC_SIZE]  _
 //*/
 
 
-/*
+//*
 __ALIGN_BEGIN static uint8_t HID_MOUSE_ReportDesc[HID_MOUSE_REPORT_DESC_SIZE]  __ALIGN_END =
 {
 		0x05, 0x01,                    // USAGE_PAGE (Generic Desktop)
@@ -303,7 +303,7 @@ __ALIGN_BEGIN static uint8_t HID_MOUSE_ReportDesc[HID_MOUSE_REPORT_DESC_SIZE]  _
 //*/
 
 
-//*
+/*
 __ALIGN_BEGIN static uint8_t HID_MOUSE_ReportDesc[USBD_CUSTOM_HID_REPORT_DESC_SIZE]  __ALIGN_END =
 {
 		0x06, 0xFF, 0x00,      // USAGE_PAGE (Vendor Page: 0xFF00)

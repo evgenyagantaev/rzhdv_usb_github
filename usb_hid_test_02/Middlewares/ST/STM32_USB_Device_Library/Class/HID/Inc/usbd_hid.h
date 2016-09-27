@@ -56,11 +56,11 @@ extern "C" {
 #define USB_HID_CONFIG_DESC_SIZ       41
 #define USB_HID_DESC_SIZ              9
 //#define HID_MOUSE_REPORT_DESC_SIZE    74
-//*
+/*
 #define HID_MOUSE_REPORT_DESC_SIZE    		   165
 #define USBD_CUSTOM_HID_REPORT_DESC_SIZE         165
 //*/
-/*
+//*
 #define HID_MOUSE_REPORT_DESC_SIZE    		   28
 #define USBD_CUSTOM_HID_REPORT_DESC_SIZE       28
 //*/
