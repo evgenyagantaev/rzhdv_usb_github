@@ -30,7 +30,7 @@
 #define __USB_HID_H
 
 #ifdef __cplusplus
- extern "C" {
+extern "C" {
 #endif
 
 /* Includes ------------------------------------------------------------------*/
@@ -50,17 +50,25 @@
   * @{
   */ 
 #define HID_EPIN_ADDR                 0x81
-#define HID_EPIN_SIZE                 0x04
+#define HID_EPIN_SIZE                 0x40
+#define HID_EPOUT_SIZE                0x40
 
-#define USB_HID_CONFIG_DESC_SIZ       34
+#define USB_HID_CONFIG_DESC_SIZ       41
 #define USB_HID_DESC_SIZ              9
-#define HID_MOUSE_REPORT_DESC_SIZE    74
-
+//#define HID_MOUSE_REPORT_DESC_SIZE    74
+//*
+#define HID_MOUSE_REPORT_DESC_SIZE    		   165
+#define USBD_CUSTOM_HID_REPORT_DESC_SIZE         165
+//*/
+/*
+#define HID_MOUSE_REPORT_DESC_SIZE    		   28
+#define USBD_CUSTOM_HID_REPORT_DESC_SIZE       28
+//*/
 #define HID_DESCRIPTOR_TYPE           0x21
 #define HID_REPORT_DESC               0x22
 
 #define HID_HS_BINTERVAL               0x07
-#define HID_FS_BINTERVAL               0x0A
+#define HID_FS_BINTERVAL               0x20
 #define HID_POLLING_INTERVAL           0x0A
 
 #define HID_REQ_SET_PROTOCOL          0x0B
@@ -71,6 +79,25 @@
 
 #define HID_REQ_SET_REPORT            0x09
 #define HID_REQ_GET_REPORT            0x01
+
+
+#define LED1_REPORT_ID           0x01
+#define LED1_REPORT_COUNT        0x01
+
+#define LED2_REPORT_ID           0x02
+#define LED2_REPORT_COUNT        0x01
+
+#define LED3_REPORT_ID           0x03
+#define LED3_REPORT_COUNT        0x01
+
+#define LED4_REPORT_ID           0x04
+#define LED4_REPORT_COUNT        0x01
+
+#define KEY_REPORT_ID            0x05
+#define TAMPER_REPORT_ID         0x06
+#define ADC_REPORT_ID            0x07
+
+
 /**
   * @}
   */ 

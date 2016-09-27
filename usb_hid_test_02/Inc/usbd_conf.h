@@ -65,6 +65,9 @@
 #define USBD_SELF_POWERED                     1
 #define USBD_DEBUG_LEVEL                      0
 
+#define USBD_CUSTOMHID_OUTREPORT_BUF_SIZE     0x40
+
+
 /* Exported macro ------------------------------------------------------------*/
 /* Memory management macros */   
 #define USBD_malloc               malloc

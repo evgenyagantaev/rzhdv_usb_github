@@ -197,6 +197,14 @@ void diagnosticsTask(void *parameters)
 
 			//if(common.sendStatus)
 			{
+				int i;
+				//place report id in the beginning of message
+				// shift string (terminating zero too)
+				for(i=strlen(statusString); i>=0; i--)
+				{
+					statusString[i+1] = statusString[i];
+				}
+				statusString[0] = ADC_REPORT_ID;
 				USBD_HID_SendReport(&USBD_Device, (uint8_t *)statusString, strlen(statusString));
 				//HAL_UART_Transmit(&huart1, (uint8_t *)statusString, strlen(statusString), 500);  // for production board
 				//debug
