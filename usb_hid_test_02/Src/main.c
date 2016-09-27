@@ -107,43 +107,47 @@ void Toggle_Leds(void);
   */
 int main(void)
 {
-  /* STM32L4xx HAL library initialization:
-       - Configure the Flash prefetch
-       - Systick timer is configured by default as source of time base, but user 
-         can eventually implement his proper time base source (a general purpose 
-         timer for example or other time source), keeping in mind that Time base 
-         duration should be kept 1ms since PPP_TIMEOUT_VALUEs are defined and 
-         handled in milliseconds basis.
-       - Set NVIC Group Priority to 4
-       - Low Level Initialization
-     */
-  
-  /* Initialize the HAL Library */
-  HAL_Init();
-  
-  /* Configure the system clock to 80 MHz */
-  SystemClock_Config();
-  
-  /* Enable Power Clock*/
-  __HAL_RCC_PWR_CLK_ENABLE();
-  
-  /* Enable USB power on Pwrctrl CR2 register */
-  HAL_PWREx_EnableVddUSB();
-  
-  /* Configure LED_GREEN and LED_RED */
-  //BSP_LED_Init(LED_GREEN);
-  //BSP_LED_Init(LED_RED);
-    
-  /* Init Device Library */
-  USBD_Init(&USBD_Device, &HID_Desc, 0);
-  
-  /* Add Supported Class */
-  USBD_RegisterClass(&USBD_Device, USBD_HID_CLASS);
-  
-  /* Start Device Process */
-  USBD_Start(&USBD_Device);
+	/* STM32L4xx HAL library initialization:
+	   - Configure the Flash prefetch
+	   - Systick timer is configured by default as source of time base, but user
+		 can eventually implement his proper time base source (a general purpose
+		 timer for example or other time source), keeping in mind that Time base
+		 duration should be kept 1ms since PPP_TIMEOUT_VALUEs are defined and
+		 handled in milliseconds basis.
+	   - Set NVIC Group Priority to 4
+	   - Low Level Initialization
+	 */
 
-  //while(1);
+	/* Initialize the HAL Library */
+	HAL_Init();
+
+	/* Configure the system clock to 80 MHz */
+	SystemClock_Config();
+
+	/* Enable Power Clock*/
+	__HAL_RCC_PWR_CLK_ENABLE();
+
+	/* Enable USB power on Pwrctrl CR2 register */
+	HAL_PWREx_EnableVddUSB();
+
+	/* Configure LED_GREEN and LED_RED */
+	//BSP_LED_Init(LED_GREEN);
+	//BSP_LED_Init(LED_RED);
+
+	/* Init Device Library */
+	USBD_Init(&USBD_Device, &HID_Desc, 0);
+
+	/* Add Supported Class */
+	//USBD_RegisterClass(&USBD_Device, USBD_HID_CLASS);
+	USBD_RegisterClass(&USBD_Device, &USBD_CUSTOM_HID);
+
+	/* Add Custom HID callbacks */
+	USBD_CUSTOM_HID_RegisterInterface(&USBD_Device, &USBD_CustomHID_fops);
+
+	/* Start Device Process */
+	USBD_Start(&USBD_Device);
+
+	//while(1);
 
 
 	MX_TIM4_Init();

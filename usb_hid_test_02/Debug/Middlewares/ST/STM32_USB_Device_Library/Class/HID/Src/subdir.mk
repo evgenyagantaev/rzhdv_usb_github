@@ -4,12 +4,15 @@
 
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS += \
+../Middlewares/ST/STM32_USB_Device_Library/Class/HID/Src/usbd_customhid.c \
 ../Middlewares/ST/STM32_USB_Device_Library/Class/HID/Src/usbd_hid.c 
 
 OBJS += \
+./Middlewares/ST/STM32_USB_Device_Library/Class/HID/Src/usbd_customhid.o \
 ./Middlewares/ST/STM32_USB_Device_Library/Class/HID/Src/usbd_hid.o 
 
 C_DEPS += \
+./Middlewares/ST/STM32_USB_Device_Library/Class/HID/Src/usbd_customhid.d \
 ./Middlewares/ST/STM32_USB_Device_Library/Class/HID/Src/usbd_hid.d 
 
 

@@ -56,6 +56,9 @@
 #include "usbd_hid.h" 
 #include "stm32l476g_discovery.h"
 
+#include "usbd_customhid.h"
+#include "usbd_customhid_if.h"
+
 /* Exported types ------------------------------------------------------------*/
 /* Exported constants --------------------------------------------------------*/
 

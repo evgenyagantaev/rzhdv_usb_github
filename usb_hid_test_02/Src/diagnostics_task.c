@@ -10,7 +10,8 @@
 #include "heart_rate_obj.h"
 #include "thermometr_obj.h"
 
-#include "usbd_hid.h"
+#include "usbd_customhid.h"
+#include "usbd_customhid_if.h"
 extern USBD_HandleTypeDef USBD_Device;
 
 //debug
@@ -205,7 +206,7 @@ void diagnosticsTask(void *parameters)
 					statusString[i+1] = statusString[i];
 				}
 				statusString[0] = ADC_REPORT_ID;
-				USBD_HID_SendReport(&USBD_Device, (uint8_t *)statusString, strlen(statusString));
+				USBD_CUSTOM_HID_SendReport(&USBD_Device, (uint8_t *)statusString, strlen(statusString));
 				//HAL_UART_Transmit(&huart1, (uint8_t *)statusString, strlen(statusString), 500);  // for production board
 				//debug
 				//sprintf(statusString, "c  0x%x  G\r\n", get_leadoff_status());

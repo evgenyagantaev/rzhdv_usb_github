@@ -53,7 +53,7 @@
 /* Private typedef -----------------------------------------------------------*/
 /* Private define ------------------------------------------------------------*/
 #define USBD_VID                      0x0483
-#define USBD_PID                      0x5750
+#define USBD_PID                      0x1966
 #define USBD_LANGID_STRING            0x409
 #define USBD_MANUFACTURER_STRING      "SpecMedTech"
 #define USBD_PRODUCT_FS_STRING        "Biomonitor"
