@@ -8,10 +8,14 @@
 #include "qrs_obj.h"
 #include "qrs_detection_task.h"
 #include "gpio.h"
+#include "usbd_customhid_if.h"
+#include "usbd_customhid.h"
+
 
 //debug
 #include "usart.h"
 extern UART_HandleTypeDef huart1;
+extern USBD_HandleTypeDef USBD_Device;
 
 void qrs_detection_task()
 {
@@ -23,6 +27,7 @@ void qrs_detection_task()
 
 		//debug
 		char message[64];  // remove when not debugging
+		message[0] = ADC_REPORT_ID;
 		// debug
 		/*
 		sprintf(message, "%dI%d\r\n", qrs_window[0], isoline_window[0]);
@@ -37,6 +42,16 @@ void qrs_detection_task()
 			HAL_UART_Transmit(&huart1, "B\r\n", 3, 500);  // for production board
 		//*/
 		//debug
+
+		sprintf(&message[1], "%ldI%ld\r\n", qrs_window[0], isoline_window[0]);
+
+
+		//if(markers[0] == REDMARKER)
+		//{
+			//strcat(message, "R\r\n");
+		//}
+
+		USBD_CUSTOM_HID_SendReport(&USBD_Device, (uint8_t *)message, strlen(message));
 
 
 	}

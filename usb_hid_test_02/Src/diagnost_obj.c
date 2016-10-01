@@ -144,12 +144,14 @@ void makeDiagnosis(int pulse, int walkingDetected, int runningDetected,
 		}
 	}// end if(walkingDetected || runningDetected || (position == 8))
 
-
+	/*
 	if(walkingDetected || runningDetected || (position == 8))
 	{
 		status = 1;
 	}
-	else if(pulse == 0) // asistoly
+	else
+	//*/
+	if(pulse == 0) // asistoly
 	{
 		//printf ("OPERATOR_CONDITION %d\r\n", 3);	// hard wounded
 		status = 4;

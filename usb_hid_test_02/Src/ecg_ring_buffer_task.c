@@ -32,9 +32,9 @@ void ecg_ring_buffer_task()
 		}
 
 		// debug
-		char message[64];  // remove when not debugging
-		sprintf(message, "%dI%d\r\n", sample, sample);
-		HAL_UART_Transmit(&huart1, (uint8_t *)message, strlen(message), 500);  // for production board
+		//char message[64];  // remove when not debugging
+		//sprintf(message, "%dI%d\r\n", sample, sample);
+		//HAL_UART_Transmit(&huart1, (uint8_t *)message, strlen(message), 500);  // for production board
 
 	}
 }

@@ -21,10 +21,7 @@ void heart_rate_init()
 
 int get_current_heartrate()
 {
-	if(current_heartrate == 0)
-		return current_heartrate;
-	else
-		return current_heartrate + 1;
+	return current_heartrate;
 }
 
 void heart_rate_set_asystoly()

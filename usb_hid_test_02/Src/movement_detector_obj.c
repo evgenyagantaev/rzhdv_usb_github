@@ -9,6 +9,7 @@
 #include "timer250hz.h"
 #include "timer_1hz_obj.h"
 #include "math.h"
+#include "string.h"
 //debug
 #include "usart.h"
 extern UART_HandleTypeDef huart1;
@@ -186,28 +187,32 @@ void movementDetection(void)
     newX = averagingXbuffer[ACCELBUFFERLENGTH - 1];
     // debug
 	char message[64];  // remove when not debugging
-	sprintf(message, "%dI%d\r\n", abs(newX-meanX), abs(newX-meanX));
-	//HAL_UART_Transmit(&huart1, (uint8_t *)message, strlen(message), 500);  // for production board
+	//sprintf(message, "%dI%d\r\n", abs(newX-meanX), abs(newX-meanX));
+	sprintf(message, "%dI%d\r\n", newX, newX);
+	HAL_UART_Transmit(&huart1, (uint8_t *)message, strlen(message), 500);  // for production board
     //*
-	if((abs(newX-meanX) > runThreshold) && !runStepDetected)
+	//if((abs(newX-meanX) > runThreshold) && !runStepDetected)
+	if((newX < runThreshold) && !runStepDetected)
 	{
 
 
 		if((timer250hz_get_tick() - lastRunStepTimerMarker) > runStepInterval)
 		{
-				runStepCounter++;
-				noLocomotionDetected = 0;
-				noLocomotionMarker = timer1hz_get_tick();
-				detectWalking = 0;
+			runStepCounter++;
+			noLocomotionDetected = 0;
+			noLocomotionMarker = timer1hz_get_tick();
+			detectWalking = 0;
 
-				//debug (blue marker)
-				sprintf(message, "B\r\n");
-				HAL_UART_Transmit(&huart1, (uint8_t *)message, strlen(message), 500);  // for production board
+
+
+			//debug (blue marker)
+			sprintf(message, "B\r\n");
+			HAL_UART_Transmit(&huart1, (uint8_t *)message, strlen(message), 500);  // for production board
 
 		}
-
 		runStepDetected = 1;
-		lastRunStepTimerMarker = timer1hz_get_tick();
+		lastRunStepTimerMarker = timer250hz_get_tick();
+
 
 		if(walkStepDetected)
 		{
@@ -226,7 +231,8 @@ void movementDetection(void)
 
   if(detectWalking)	// если не детектирован беговой шаг, детектируем пеший шаг
   {
-		if((abs(newX-meanX) > walkThreshold) && !walkStepDetected)
+		//if((abs(newX-meanX) > walkThreshold) && !walkStepDetected)
+	    if((newX < walkThreshold) && !walkStepDetected)
 		{
 				if((timer250hz_get_tick() - lastStepTimerMarker) > stepInterval)
 				{
@@ -235,7 +241,7 @@ void movementDetection(void)
 					noLocomotionMarker = timer1hz_get_tick();
 
 					//debug (white marker)
-					sprintf(sampleTxtBuffer, "W\r\n");
+					sprintf(message, "W\r\n");
 					HAL_UART_Transmit(&huart1, (uint8_t *)message, strlen(message), 500);  // for production board
 
 				}

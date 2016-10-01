@@ -42,6 +42,7 @@ C_SRCS += \
 ../Src/timer_100hz_obj.c \
 ../Src/timer_1hz_irqhandler.c \
 ../Src/timer_1hz_obj.c \
+../Src/usart.c \
 ../Src/usbd_conf.c \
 ../Src/usbd_customhid_if.c \
 ../Src/usbd_desc.c 
@@ -85,6 +86,7 @@ OBJS += \
 ./Src/timer_100hz_obj.o \
 ./Src/timer_1hz_irqhandler.o \
 ./Src/timer_1hz_obj.o \
+./Src/usart.o \
 ./Src/usbd_conf.o \
 ./Src/usbd_customhid_if.o \
 ./Src/usbd_desc.o 
@@ -128,6 +130,7 @@ C_DEPS += \
 ./Src/timer_100hz_obj.d \
 ./Src/timer_1hz_irqhandler.d \
 ./Src/timer_1hz_obj.d \
+./Src/usart.d \
 ./Src/usbd_conf.d \
 ./Src/usbd_customhid_if.d \
 ./Src/usbd_desc.d 

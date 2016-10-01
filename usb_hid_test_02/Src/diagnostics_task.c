@@ -50,7 +50,8 @@ void diagnosticsTask(void *parameters)
 			getWalkingStatus(), getRunningStatus(),
 			getPosition());
 
-			/*   integral'naya chss
+			/*
+			//integral'naya chss
 			if(current_heartrate <= 85)
 				common.heartRateWeight = 1;
 			else

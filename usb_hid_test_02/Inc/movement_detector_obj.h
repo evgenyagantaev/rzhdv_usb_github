@@ -15,16 +15,16 @@
 static const uint16_t ACCELBUFFERLENGTH = 10;
 static const uint16_t highActivityThreshold = 300;
 static const uint16_t lowActivityThreshold = 90;
-static const uint16_t runThreshold = 200;
-static const uint16_t walkThreshold = 30;
+static const int16_t runThreshold = -230;
+static const int16_t walkThreshold = -150;
 static const uint16_t noMovementThreshold = 3;
 static const uint16_t meanXlevel = 127;
 
 static const long stepInterval = 80;	        // интервал между шагами (измеряется в интервалах между сэмплами экг: 4 милисекунды)
 static const long runStepInterval = 60;	// интервал между шагами при беге (измеряется в интервалах между сэмплами экг: 4 милисекунды)
-static const long noLocomotionInterval = 3;  // интервал (секунды) отсутствия перемещения, после которого сбрасываются флаги шага и бега !!!!!!!!!!!!
+static const long noLocomotionInterval = 7;  // интервал (секунды) отсутствия перемещения, после которого сбрасываются флаги шага и бега !!!!!!!!!!!!
 
-static const uint16_t numberOfStepsToDetect = 3;
+static const uint16_t numberOfStepsToDetect = 7;
 //*********************** end constants *************************************
 
 
