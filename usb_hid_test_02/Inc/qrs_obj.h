@@ -8,7 +8,9 @@
 #ifndef INC_QRS_OBJ_H_
 #define INC_QRS_OBJ_H_
 
-#define WINDOW_LENGTH 35
+#define WINDOW_LENGTH 17
+#define SAMPLES_TO_DROP_DEFAULT 10
+#define RIGHT_WINDOW_MARGIN 7
 
 #include "isoline.h"
 
@@ -29,10 +31,11 @@ static const uint16_t QRSSUSPENDPERIOD = 60;
 
 
 
-int32_t qrs_window[WINDOW_LENGTH];
-int32_t isoline_window[WINDOW_LENGTH];
-int32_t order_numbers[WINDOW_LENGTH];
-int32_t markers[WINDOW_LENGTH];
+static int32_t qrs_window[WINDOW_LENGTH];
+static int32_t isoline_window[WINDOW_LENGTH];
+static int32_t order_numbers[WINDOW_LENGTH];
+static int32_t markers[WINDOW_LENGTH];
+static int samples_to_drop_in_window = SAMPLES_TO_DROP_DEFAULT;
 
 static int qrs_new_sample_added_flag;
 static int qrs_suspend_flag = 0;

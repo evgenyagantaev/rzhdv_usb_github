@@ -28,6 +28,8 @@ void qrs_detection_task()
 		//debug
 		char message[64];  // remove when not debugging
 		message[0] = ADC_REPORT_ID;
+		char marker_message[64];  // remove when not debugging
+		marker_message[0] = ADC_REPORT_ID;
 		// debug
 		/*
 		sprintf(message, "%dI%d\r\n", qrs_window[0], isoline_window[0]);
@@ -52,9 +54,10 @@ void qrs_detection_task()
 			USBD_CUSTOM_HID_SendReport(&USBD_Device, (uint8_t *)message, strlen(message));
 		}
 
-		/*
+		//*
 		if(markers[0] == REDMARKER)
 		{
+			sprintf(&marker_message[1], "R\r\n");
 			USBD_CUSTOM_HID_SendReport(&USBD_Device, (uint8_t *)marker_message, strlen(marker_message));
 		}
 		//*/

@@ -25,7 +25,7 @@ void qrs_add_new_sample(int32_t new_sample)
 	qrs_shift_array(markers, WINDOW_LENGTH);
 	markers[WINDOW_LENGTH-1] = 0;
 
-	qrs_new_sample_added_flag = 1;  // drop new sample flag
+	qrs_new_sample_added_flag = 1;  // set new sample flag
 
 	// check if local buffer (full) ready for analysis
 	if(!local_buffer_ready_flag)
@@ -34,7 +34,7 @@ void qrs_add_new_sample(int32_t new_sample)
 	 // so we increment samples counter
 		qrs_buffer_counter++;
 	 // if buffer is full, set flag of buffer readiness
-	 if(qrs_buffer_counter >= QRSWINDOWLENGTH)
+	 if(qrs_buffer_counter >= samples_to_drop_in_window)
 		 local_buffer_ready_flag = 1;
 	}
 
@@ -109,7 +109,7 @@ void qrsDetect(void)
 		// first: we detect if there is an excess of threshold level in the window
 		int excess = 0;
 		int i = 0;
-		while(!excess && (i<(QRSWINDOWLENGTH-7))) // otstupili na 7 semplov ot pravogo kraya chtoby "vlez" ves QRS-kompleks
+		while(!excess && (i<(QRSWINDOWLENGTH-RIGHT_WINDOW_MARGIN))) // otstupili na 7 semplov ot pravogo kraya chtoby "vlez" ves QRS-kompleks
 		{
 			if((qrs_window[i] - isoline_window[i]) > AMPLITUDELEASTTHRESHOLD)
 			{
@@ -127,6 +127,7 @@ void qrsDetect(void)
 		{
 			local_buffer_ready_flag = 0;
 			qrs_buffer_counter = 0;
+			samples_to_drop_in_window = SAMPLES_TO_DROP_DEFAULT;
 
 			// if no qrs more than 4 seconds, then we detect asistoly
 			//*
@@ -219,6 +220,7 @@ void qrsDetect(void)
 			// drop buffer
 			local_buffer_ready_flag = 0;
 			qrs_buffer_counter = 0;
+			samples_to_drop_in_window = r_finish;
 
 			// calculate rr-interval and heart rate
 			//heartRateCalculate();
