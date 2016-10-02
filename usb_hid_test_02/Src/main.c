@@ -222,13 +222,6 @@ int main(void)
 	  temperature_measure_task();
 	  diagnosticsTask();
 
-
-	  if(frozen_seconds_local < timer1hz_get_tick())
-	  {
-		  frozen_seconds_local = timer1hz_get_tick();
-		  sprintf(message, "Diagnostics -> %d\r\n", frozen_seconds_local);
-		  //USBD_HID_SendReport(&USBD_Device, (uint8_t *)message, strlen(message));
-	  }
   }
 }
 

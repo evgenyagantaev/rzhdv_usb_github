@@ -208,7 +208,8 @@ void diagnosticsTask(void *parameters)
 				}
 				statusString[0] = ADC_REPORT_ID;
 				USBD_CUSTOM_HID_SendReport(&USBD_Device, (uint8_t *)statusString, strlen(statusString));
-				//HAL_UART_Transmit(&huart1, (uint8_t *)statusString, strlen(statusString), 500);  // for production board
+
+				HAL_UART_Transmit(&huart1, (uint8_t *)statusString, strlen(statusString), 500);  // for production board
 				//debug
 				//sprintf(statusString, "c  0x%x  G\r\n", get_leadoff_status());
 				//HAL_UART_Transmit(&huart1, (uint8_t *)statusString, strlen(statusString), 500);  // for production board

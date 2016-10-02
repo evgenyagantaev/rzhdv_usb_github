@@ -186,11 +186,13 @@ void movementDetection(void)
 
     newX = averagingXbuffer[ACCELBUFFERLENGTH - 1];
     // debug
+    /*
 	char message[64];  // remove when not debugging
 	//sprintf(message, "%dI%d\r\n", abs(newX-meanX), abs(newX-meanX));
 	sprintf(message, "%dI%d\r\n", newX, newX);
 	HAL_UART_Transmit(&huart1, (uint8_t *)message, strlen(message), 500);  // for production board
-    //*
+    //*/
+
 	//if((abs(newX-meanX) > runThreshold) && !runStepDetected)
 	if((newX < runThreshold) && !runStepDetected)
 	{
@@ -199,6 +201,7 @@ void movementDetection(void)
 		if((timer250hz_get_tick() - lastRunStepTimerMarker) > runStepInterval)
 		{
 			runStepCounter++;
+			lastRunStepTimerMarker = timer250hz_get_tick();
 			noLocomotionDetected = 0;
 			noLocomotionMarker = timer1hz_get_tick();
 			detectWalking = 0;
@@ -206,12 +209,13 @@ void movementDetection(void)
 
 
 			//debug (blue marker)
+			/*
 			sprintf(message, "B\r\n");
 			HAL_UART_Transmit(&huart1, (uint8_t *)message, strlen(message), 500);  // for production board
-
+			//*/
 		}
 		runStepDetected = 1;
-		lastRunStepTimerMarker = timer250hz_get_tick();
+
 
 
 		if(walkStepDetected)
@@ -226,8 +230,16 @@ void movementDetection(void)
 
 	}
   //else if(abs(newX - meanXlevel) <= noMovementThreshold)
-  else if((newX - meanX) <= noMovementThreshold)
+  else
+  {
+	  if((timer250hz_get_tick() - lastRunStepTimerMarker) > stepInterval)
+	  {
+		  detectWalking = 1;
+	  }
+
+	  if(abs(newX - meanX) <= noMovementThreshold)
 		runStepDetected = 0;
+  }
 
   if(detectWalking)	// если не детектирован беговой шаг, детектируем пеший шаг
   {
@@ -237,16 +249,18 @@ void movementDetection(void)
 				if((timer250hz_get_tick() - lastStepTimerMarker) > stepInterval)
 				{
 					walkStepCounter++;
+					lastStepTimerMarker = timer250hz_get_tick();
 					noLocomotionDetected = 0;
 					noLocomotionMarker = timer1hz_get_tick();
 
 					//debug (white marker)
+					/*
 					sprintf(message, "W\r\n");
 					HAL_UART_Transmit(&huart1, (uint8_t *)message, strlen(message), 500);  // for production board
-
+					//*/
 				}
 				walkStepDetected = 1;
-				lastStepTimerMarker = timer250hz_get_tick();
+
 
 
 		}
