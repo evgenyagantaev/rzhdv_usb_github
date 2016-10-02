@@ -22,7 +22,8 @@ C_SRCS += \
 ../Src/heart_rate_obj.c \
 ../Src/isoline.c \
 ../Src/isoline_calculation_task.c \
-../Src/leadoff_status_obj.c \
+../Src/leadoff_detection_task.c \
+../Src/leadoff_detector_obj.c \
 ../Src/main.c \
 ../Src/movement_detection_task.c \
 ../Src/movement_detector_obj.c \
@@ -66,7 +67,8 @@ OBJS += \
 ./Src/heart_rate_obj.o \
 ./Src/isoline.o \
 ./Src/isoline_calculation_task.o \
-./Src/leadoff_status_obj.o \
+./Src/leadoff_detection_task.o \
+./Src/leadoff_detector_obj.o \
 ./Src/main.o \
 ./Src/movement_detection_task.o \
 ./Src/movement_detector_obj.o \
@@ -110,7 +112,8 @@ C_DEPS += \
 ./Src/heart_rate_obj.d \
 ./Src/isoline.d \
 ./Src/isoline_calculation_task.d \
-./Src/leadoff_status_obj.d \
+./Src/leadoff_detection_task.d \
+./Src/leadoff_detector_obj.d \
 ./Src/main.d \
 ./Src/movement_detection_task.d \
 ./Src/movement_detector_obj.d \

@@ -77,6 +77,9 @@
 #include "diagnost_obj.h"
 #include "diagnostics_task.h"
 
+#include "leadoff_detector_obj.h"
+#include "leadoff_detection_task.h"
+
 
 
 /* Private typedef -----------------------------------------------------------*/
@@ -214,6 +217,7 @@ int main(void)
 
 	  frame_ring_buffer_task();
 	  ecg_ring_buffer_task();
+	  leadoff_detection_task();
 	  isoline_calculation_task();
 	  qrs_detection_task();
 	  heart_rate_calculation_task();

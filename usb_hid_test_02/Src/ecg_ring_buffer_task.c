@@ -9,6 +9,7 @@
 #include "ecg_ring_buffer.h"
 #include "frame_ring_buffer.h"
 #include "isoline.h"
+#include "leadoff_detector_obj.h"
 
 //debug
 #include "usart.h"
@@ -25,11 +26,7 @@ void ecg_ring_buffer_task()
 		uint32_t sample = local_frame_copy[1]&((uint32_t)0x00ffffff);
 		ecg_ring_buffer_push(sample);
 		isoline_add_new_sample(sample);
-		// save leadoff status (9-th word if frame, address 0x1d)
-		if((uint8_t)(local_frame_copy[9]>>24) == 0x1d)
-		{
-			set_leadoff_status((uint8_t)((local_frame_copy[9]>>16) & 0x000000ff));
-		}
+		leadoff_detector_push_new_sample(sample);
 
 		// debug
 		//char message[64];  // remove when not debugging

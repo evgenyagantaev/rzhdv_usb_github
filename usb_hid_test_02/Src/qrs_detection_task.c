@@ -28,13 +28,10 @@ void qrs_detection_task()
 		//debug
 		char message[64];  // remove when not debugging
 		message[0] = ADC_REPORT_ID;
-		char marker_message[64];  // remove when not debugging
-		marker_message[0] = ADC_REPORT_ID;
-		sprintf(&marker_message[1], "R\r\n");
 		// debug
-		//*
+		/*
 		sprintf(message, "%dI%d\r\n", qrs_window[0], isoline_window[0]);
-		//sprintf(message, "%dI%d\r\n", qrs_window[0], qrs_window[0]);
+		//sprintf(message, "%dI%d\r\n", qrs_window[0] - isoline_window[0], 0);
 		//sprintf(message, "%dI%d\r\n", isoline_window[0], isoline_window[0]);
 		HAL_UART_Transmit(&huart1, (uint8_t *)message, strlen(message), 500);  // for production board
 		/*
@@ -43,19 +40,21 @@ void qrs_detection_task()
 		else if(markers[0] == BLUEMARKER)
 			HAL_UART_Transmit(&huart1, "B\r\n", 3, 500);  // for production board
 		//*/
+		/*
 		if(markers[0] == REDMARKER)
 			HAL_UART_Transmit(&huart1, "R\r\n", 3, 500);  // for production board
 
 		//*/
 		//debug
-
-		sprintf(&message[1], "%ldI%ld\r\n", qrs_window[0], isoline_window[0]);
-		USBD_CUSTOM_HID_SendReport(&USBD_Device, (uint8_t *)message, strlen(message));
+		if(qrs_detection_task_get_test_flag())
+		{
+			sprintf(&message[1], "%ldI%ld\r\n", qrs_window[0], isoline_window[0]);
+			USBD_CUSTOM_HID_SendReport(&USBD_Device, (uint8_t *)message, strlen(message));
+		}
 
 		/*
 		if(markers[0] == REDMARKER)
 		{
-			HAL_Delay(1);
 			USBD_CUSTOM_HID_SendReport(&USBD_Device, (uint8_t *)marker_message, strlen(marker_message));
 		}
 		//*/
@@ -63,4 +62,17 @@ void qrs_detection_task()
 
 
 	}
+}
+
+int qrs_detection_task_get_test_flag()
+{
+	return test_flag;
+}
+void qrs_detection_task_set_test_flag()
+{
+	test_flag = 1;
+}
+void qrs_detection_task_drop_test_flag()
+{
+	test_flag = 0;
 }

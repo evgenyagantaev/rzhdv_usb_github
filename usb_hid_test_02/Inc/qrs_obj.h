@@ -8,12 +8,12 @@
 #ifndef INC_QRS_OBJ_H_
 #define INC_QRS_OBJ_H_
 
-#define WINDOW_LENGTH 17
+#define WINDOW_LENGTH 35
 
 #include "isoline.h"
 
 // threshold values for r-pick detection
-static const uint16_t AMPLITUDELEASTTHRESHOLD = 1500;
+static const uint16_t AMPLITUDELEASTTHRESHOLD = 3500;
 static const uint16_t AMPLITUDEMOSTTHRESHOLD = 17000;
 static const uint16_t RLEASTLENGTH = 2;
 static const uint16_t RMOSTLENGTH = 7;

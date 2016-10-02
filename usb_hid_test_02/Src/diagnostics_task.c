@@ -9,6 +9,7 @@
 #include "timer_1hz_obj.h"
 #include "heart_rate_obj.h"
 #include "thermometr_obj.h"
+#include "leadoff_detector_obj.h"
 
 #include "usbd_customhid.h"
 #include "usbd_customhid_if.h"
@@ -20,7 +21,6 @@ extern UART_HandleTypeDef huart1;
 
 //debug
 #include "gpio.h"
-#include "leadoff_status_obj.h"
 
 
 // This task performs diagnostics
@@ -199,6 +199,10 @@ void diagnosticsTask(void *parameters)
 
 			//if(common.sendStatus)
 			{
+				if(leadoff_detector_get_status())
+					sprintf(statusString, "c%dp%03dm%dt%03dr%03dG\r\n", 0,
+									333, getPosition(),	temperature, respiration);
+
 				int i;
 				//place report id in the beginning of message
 				// shift string (terminating zero too)
@@ -209,7 +213,7 @@ void diagnosticsTask(void *parameters)
 				statusString[0] = ADC_REPORT_ID;
 				USBD_CUSTOM_HID_SendReport(&USBD_Device, (uint8_t *)statusString, strlen(statusString));
 
-				HAL_UART_Transmit(&huart1, (uint8_t *)statusString, strlen(statusString), 500);  // for production board
+				//HAL_UART_Transmit(&huart1, (uint8_t *)statusString, strlen(statusString), 500);  // for production board
 				//debug
 				//sprintf(statusString, "c  0x%x  G\r\n", get_leadoff_status());
 				//HAL_UART_Transmit(&huart1, (uint8_t *)statusString, strlen(statusString), 500);  // for production board

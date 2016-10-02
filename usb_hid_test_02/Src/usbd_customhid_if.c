@@ -47,6 +47,7 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "usbd_customhid_if.h"
+#include "qrs_detection_task.h"
 
 /* Private typedef -----------------------------------------------------------*/
 /* Private define ------------------------------------------------------------*/
@@ -252,6 +253,12 @@ static int8_t CustomHID_OutEvent  (uint8_t event_idx, uint8_t state)
 	break;
 	}
 	//*/
+
+	if(state == 't')
+		qrs_detection_task_set_test_flag();
+	else if(state == 's')
+		qrs_detection_task_drop_test_flag();
+
 	return (0);
 
 }
