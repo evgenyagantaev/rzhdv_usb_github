@@ -31,10 +31,10 @@ static const uint16_t QRSSUSPENDPERIOD = 60;
 
 
 
-static int32_t qrs_window[WINDOW_LENGTH];
-static int32_t isoline_window[WINDOW_LENGTH];
-static int32_t order_numbers[WINDOW_LENGTH];
-static int32_t markers[WINDOW_LENGTH];
+int32_t qrs_window[WINDOW_LENGTH];
+int32_t isoline_window[WINDOW_LENGTH];
+int32_t order_numbers[WINDOW_LENGTH];
+int32_t markers[WINDOW_LENGTH];
 static int samples_to_drop_in_window = SAMPLES_TO_DROP_DEFAULT;
 
 static int qrs_new_sample_added_flag;
