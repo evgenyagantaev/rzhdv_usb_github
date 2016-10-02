@@ -7,6 +7,10 @@
 
 #include "leadoff_detector_obj.h"
 
+//debug
+#include "usart.h"
+extern UART_HandleTypeDef huart1;
+
 
 void leadoff_detector_push_new_sample(uint32_t new_sample)
 {
@@ -37,19 +41,81 @@ void leadoff_detector_calculate_status()
 	if((buffer_mean_value < ABS_RANGE_LOW_BOUND) || (buffer_mean_value > ABS_RANGE_UP_BOUND))
 		leadoff_status = 1; // lead off!!!
 	else
-		leadoff_status = 0; // ok
+	{
+		uint32_t variation = calculate_variation();
+		if(variation > VARIATION_UP_BOUND)
+			leadoff_status = 1; // lead off!!!
+		else
+			leadoff_status = 0; // ok
+	}
 }
 int leadoff_detector_get_status()
 {
 	return leadoff_status;
 }
 
-uint32_t calculate_variation()
+uint64_t calculate_variation()
 {
-	uint32_t return_value = 0;
+	uint64_t return_value = 0;
 
-	uint32_t current_min = leadoff_detection_buffer[0];
+	uint32_t current_min, current_max;
+	int direction;
+
+	if(leadoff_detection_buffer[1] < leadoff_detection_buffer[0])
+	{
+		current_max = leadoff_detection_buffer[0];
+		current_min = leadoff_detection_buffer[1];
+		direction = 0; // from max to min
+	}
+	else
+	{
+		current_max = leadoff_detection_buffer[1];
+		current_min = leadoff_detection_buffer[0];
+		direction = 1; // from min to max
+	}
+
 	int i = 0;
+	for(i=3; i<LEADOFF_DETECTION_BUFFER_LENGTH; i++)
+	{
+		if(direction) // from min to max
+		{
+			if(leadoff_detection_buffer[i] < current_max) // local maximum detected
+			{
+				return_value += current_max - current_min;
+				direction = 0; // now we will go from max to min
+				current_min = leadoff_detection_buffer[i];
+			}
+			else // no local maximum yet
+			{
+				current_max = leadoff_detection_buffer[i];
+			}
+
+		}
+		else //from max to min
+		{
+			if(leadoff_detection_buffer[i] > current_min) // local minimum detected
+			{
+				return_value += current_max - current_min;
+				direction = 1; // now we will go from min to max
+				current_max = leadoff_detection_buffer[i];
+			}
+			else // no local maximum yet
+			{
+				current_min = leadoff_detection_buffer[i];
+			}
+
+		}
+	}
+
+
+	// debug
+	/*
+	char message[64];  // remove when not debugging
+	sprintf(message, "%LdI%Ld\r\n", return_value, return_value);
+	HAL_UART_Transmit(&huart1, (uint8_t *)message, strlen(message), 500);  // for production board
+	//*/
+
+	return return_value;
 }
 
 

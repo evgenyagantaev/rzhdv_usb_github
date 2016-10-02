@@ -14,6 +14,7 @@
 
 static const uint32_t ABS_RANGE_LOW_BOUND = 7700000;
 static const uint32_t ABS_RANGE_UP_BOUND = 8500000;
+static const uint32_t VARIATION_UP_BOUND = 700000;
 
 
 
@@ -34,7 +35,7 @@ uint32_t calculate_buffer_mean();
 void leadoff_detector_calculate_status();
 int leadoff_detector_get_status();
 
-uint32_t calculate_variation();
+uint64_t calculate_variation();
 
 
 
