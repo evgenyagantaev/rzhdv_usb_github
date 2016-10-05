@@ -13,8 +13,8 @@
 //************************* constants ***************************************
 static const uint16_t HARDBRADYTHRESHOLD = 40;
 static const uint16_t BRADYTHRESHOLD = 50;
-static const uint16_t HARDTACHYTHRESHOLD = 185;
-static const uint16_t TACHYTHRESHOLD = 125;
+static const uint16_t HARDTACHYTHRESHOLD = 175;
+static const uint16_t TACHYTHRESHOLD = 118;
 static const uint16_t numberOfRepeatingStatesToSwitch = 15;
 static const uint16_t RECREATIONPERIODLENGTH = 120; // in seconds
 
@@ -43,7 +43,7 @@ int blackCounter;
 int state, previousState;
 
 // interval of diagnostics information output (in seconds)
-static long DIAGNOSTICSINTERVAL = 2;
+static long DIAGNOSTICSINTERVAL;
 
 // flag that indicates that recreation period after walking or running
 // not finished yet
@@ -74,18 +74,6 @@ int badAdcRangeFlag;
 long badAdcRangeMarker;
 
 //*********************** end variables ************************************
-
-
-static const uint16_t LOWBOUNDADCDIAPAZONE = 500;
-static const uint16_t UPPERBOUNDADCDIAPAZONE = 65500;
-static const uint16_t ADCRANGEPERIOD = 1; // in seconds
-
-// flag; when set, signals that input of adc is out of range
-int badAdcRange;
-
-int adcRangeTimer;
-
-int badIsoline;
 
 
 

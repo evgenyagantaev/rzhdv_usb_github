@@ -16,6 +16,8 @@ void heart_rate_init()
 
 	for(i=0; i<BUFFER_LENGTH; i++)
 		regular_heart_rate_buffer[i] = 75;
+
+	current_heartrate = 444;
 }
 
 
@@ -65,7 +67,7 @@ void heart_rate_calculate(void)
 	 regular_average = hr_calculate_average(regular_heart_rate_buffer, REGULARANDQUARANTINEBUFFERLENGTH);
 	 if(current_heartrate == 444) // there was not real pulse yet
 	 {
-		if((regular_average < 130) && (regular_average > 40)) // if normal start pulse
+		if((regular_average < 160) && (regular_average > 40)) // if normal start pulse
 			current_heartrate = regular_average;
 	 }
 	 else

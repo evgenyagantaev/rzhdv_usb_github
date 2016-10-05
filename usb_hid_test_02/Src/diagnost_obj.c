@@ -6,6 +6,8 @@
  */
 
 #include "diagnost_obj.h"
+#include "recreation_curve_obj.h"
+#include "timer_1hz_obj.h"
 
 
 
@@ -21,9 +23,6 @@ void diagnost_init()
 	recreationPeriodPending = 0;
 
 	recreationPeriodTimer = 0;
-
-	badAdcRange = 1;
-	adcRangeTimer = 0;
 
 	lastDisplayedPulse = 444;
 
@@ -66,20 +65,7 @@ void diagnost_init()
    int getTachiThreshold()
    {return tachiThreshold;}
 
-   int getBadAdcRangeFlag()
-   { return badAdcRangeFlag; }
 
-   void setBadAdcRangeFlag()
-   { badAdcRangeFlag = 1; }
-
-   void resetBadAdcRangeFlag()
-   { badAdcRangeFlag = 0; }
-
-   long getBadAdcRangeMarker()
-   { return badAdcRangeMarker; }
-
-   void setBadAdcRangeMarker(long timer)
-   { badAdcRangeMarker = timer1hz_get_tick(); }
    //********************** end properties *************************************
 
 
@@ -93,55 +79,24 @@ void makeDiagnosis(int pulse, int walkingDetected, int runningDetected,
 	if(walkingDetected || runningDetected || (position == 8))
 	{
 		walkingRunningStopMarker = timer1hz_get_tick();
+		if(lastDisplayedPulse != 444)
+			tachiThreshold = lastDisplayedPulse + startPulseAdd;
 	}
 	else // no walking, no running
 	{
-		long noLocomotionPeriod = timer1hz_get_tick() - walkingRunningStopMarker;
-		//if(noLocomotionPeriod < RECREATIONPERIODLENGTH)
-		if(1)
-		{
+		uint32_t noLocomotionPeriod = timer1hz_get_tick() - walkingRunningStopMarker;
 
-		   // during start pulse set period, set start pulse
-		   //if((noLocomotionPeriod < timeToGetStartPulse) && (startPulse < lastDisplayedPulse))
-		   if((noLocomotionPeriod < timeToGetStartPulse) && (tachiThreshold < lastDisplayedPulse))
-		   {
-			  tachiThreshold = lastDisplayedPulse + startPulseAdd;
-			  startPulse = lastDisplayedPulse;
-
-			  if(recreationRatio != recreationRatio1)
-				 recreationRatio = recreationRatio1;
-
-		   }
-		   else if((noLocomotionPeriod >= timeToGetStartPulse) && (startPulse < tachiThreshold))
-			  startPulse += startPulseAdd;
-
-		   if((tachiThreshold > TACHYTHRESHOLD) &&
-			  ((timer1hz_get_tick() - lastTachycardiaTuningMarker) >= tuningInterval)) // tune only if floating threshold exceeds fixed one
-		   {
-			  // подстраиваем в моменты времени кратные 10 секундам
-			  if(noLocomotionPeriod > timeToGetStartPulse)
-			  {
-				 // choose a recreation curve slope
-				 if((noLocomotionPeriod > 60) && (noLocomotionPeriod < 120) && (recreationRatio != recreationRatio2))
-					recreationRatio = recreationRatio2;
-				 else if((noLocomotionPeriod > 120) && (recreationRatio != recreationRatio3))
-					recreationRatio = recreationRatio3;
-
-				 if(!tachycardiaThresholdTuned)
-				 {
-					tachiThreshold -= (int)(recreationRatio * tuningInterval);
-					lastTachycardiaTuningMarker = timer1hz_get_tick();
-					tachycardiaThresholdTuned = 1;
-				 }
-			  }
-
-		   }
-
-		   if(tachycardiaThresholdTuned && (timer1hz_get_tick() - lastTachycardiaTuningMarker) >= tuningInterval)
-			  tachycardiaThresholdTuned = 0;
+	   // during start pulse set period, set start pulse
+	   if((noLocomotionPeriod < timeToGetStartPulse) && (tachiThreshold < lastDisplayedPulse))
+	   {
+		  tachiThreshold = lastDisplayedPulse + startPulseAdd;
+		  recreation_set_start_pule(lastDisplayedPulse + startPulseAdd);
+		  recreation_set_start_time(timer1hz_get_tick());
+	   }
+	   else
+		   tachiThreshold = recreation_get_current_level();
 
 
-		}
 	}// end if(walkingDetected || runningDetected || (position == 8))
 
 	/*
@@ -151,6 +106,8 @@ void makeDiagnosis(int pulse, int walkingDetected, int runningDetected,
 	}
 	else
 	//*/
+
+
 	if(pulse == 0) // asistoly
 	{
 		//printf ("OPERATOR_CONDITION %d\r\n", 3);	// hard wounded

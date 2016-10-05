@@ -17,7 +17,7 @@ static const uint16_t REGULARANDQUARANTINEBUFFERLENGTH = 5;
 // (percents)
 static const uint16_t MAXHEARTRATEDEVIATION = 10;
 
-static int current_heartrate = 444;
+static int current_heartrate;
 static int heart_rate_measurement_started = 0;
 static uint32_t new_rr_interval;
 static uint32_t new_heart_rate;

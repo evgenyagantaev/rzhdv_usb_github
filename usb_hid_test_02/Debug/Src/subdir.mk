@@ -29,6 +29,7 @@ C_SRCS += \
 ../Src/movement_detector_obj.c \
 ../Src/qrs_detection_task.c \
 ../Src/qrs_obj.c \
+../Src/recreation_curve_obj.c \
 ../Src/smb380.c \
 ../Src/spi.c \
 ../Src/spi_low_level.c \
@@ -74,6 +75,7 @@ OBJS += \
 ./Src/movement_detector_obj.o \
 ./Src/qrs_detection_task.o \
 ./Src/qrs_obj.o \
+./Src/recreation_curve_obj.o \
 ./Src/smb380.o \
 ./Src/spi.o \
 ./Src/spi_low_level.o \
@@ -119,6 +121,7 @@ C_DEPS += \
 ./Src/movement_detector_obj.d \
 ./Src/qrs_detection_task.d \
 ./Src/qrs_obj.d \
+./Src/recreation_curve_obj.d \
 ./Src/smb380.d \
 ./Src/spi.d \
 ./Src/spi_low_level.d \
