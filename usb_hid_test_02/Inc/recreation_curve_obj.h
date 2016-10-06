@@ -10,9 +10,9 @@
 
 #include "stdint.h"
 
-static const int slope1 = 0.3;
-static const int slope2 = 0.25;
-static const int slope3 = 0.15;
+static const double slope1 = 0.3;
+static const double slope2 = 0.25;
+static const double slope3 = 0.15;
 
 static const int period1 = 60;
 static const int period2 = 120;

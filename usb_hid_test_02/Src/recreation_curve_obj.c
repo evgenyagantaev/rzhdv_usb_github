@@ -39,16 +39,16 @@ int recreation_get_current_level()
 
 	if(recreation_period < period1)
 	{
-		return_value = recreation_start_pulse - recreation_period * slope1;
+		return_value = recreation_start_pulse - (int)((double)recreation_period * slope1);
 
 	}
 	else if((recreation_period >= period1) && (recreation_period < (period1 + period2)))
 	{
-		return_value = recreation_start_pulse - (period1 * slope1 + (recreation_period - period1)*slope2);
+		return_value = recreation_start_pulse - (int)((double)period1 * slope1 + (double)(recreation_period - period1)*slope2);
 	}
 	else
 	{
-		return_value = recreation_start_pulse - (period1 * slope1 + period2*slope2 + (recreation_period - (period1+period2))*slope3);
+		return_value = recreation_start_pulse - (int)((double)period1 * slope1 + (double)period2*slope2 + (double)(recreation_period - (period1+period2))*slope3);
 	}
 
 	if(return_value < TACHYTHRESHOLD)

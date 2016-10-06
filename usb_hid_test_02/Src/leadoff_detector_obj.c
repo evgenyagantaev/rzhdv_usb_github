@@ -12,12 +12,13 @@
 extern UART_HandleTypeDef huart1;
 
 
-void leadoff_detector_push_new_sample(uint32_t new_sample)
+void leadoff_detector_push_new_sample(uint32_t new_sample, uint32_t ll_potential)
 {
 	leadoff_buffer_integral -= leadoff_detection_buffer[0];
 	leadoff_buffer_integral += new_sample;
 	leadoff_detector_shift_buffer();
 	leadoff_detection_buffer[LEADOFF_DETECTION_BUFFER_LENGTH-1] = new_sample;
+	leadoff_ll_potential = ll_potential;
 	leadoff_detector_new_sample_flag = 1;
 }
 

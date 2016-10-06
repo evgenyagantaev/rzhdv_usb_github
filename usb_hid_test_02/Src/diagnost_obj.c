@@ -9,7 +9,9 @@
 #include "recreation_curve_obj.h"
 #include "timer_1hz_obj.h"
 
-
+//debug
+//#include "usart.h"
+//extern UART_HandleTypeDef huart1;
 
 void diagnost_init()
 {
@@ -17,28 +19,14 @@ void diagnost_init()
 	DIAGNOSTICSINTERVAL = 2;
 	tachiThreshold = TACHYTHRESHOLD;
 
-	yellowCounter = redCounter = blackCounter = 0;
+	greencounter = yellowCounter = redCounter = blackCounter = 0;
 	state = previousState = 0;
 
-	recreationPeriodPending = 0;
-
-	recreationPeriodTimer = 0;
-
 	lastDisplayedPulse = 444;
-
-	recreationRatio1 = 0.1;
-	recreationRatio2 = 0.2;
-	recreationRatio3 = 0.3;
 
 	walkingRunningStopMarker = 0;
 
 	startPulse = 0;
-
-	lastTachycardiaTuningMarker = 0;
-	tachycardiaThresholdTuned = 0;
-
-	badAdcRangeFlag = 0;
-	badAdcRangeMarker = 0;
 
 }//end diagnost_init
 
@@ -87,7 +75,7 @@ void makeDiagnosis(int pulse, int walkingDetected, int runningDetected,
 		uint32_t noLocomotionPeriod = timer1hz_get_tick() - walkingRunningStopMarker;
 
 	   // during start pulse set period, set start pulse
-	   if((noLocomotionPeriod < timeToGetStartPulse) && (tachiThreshold < lastDisplayedPulse))
+	   if(noLocomotionPeriod < timeToGetStartPulse)
 	   {
 		  tachiThreshold = lastDisplayedPulse + startPulseAdd;
 		  recreation_set_start_pule(lastDisplayedPulse + startPulseAdd);
@@ -95,9 +83,18 @@ void makeDiagnosis(int pulse, int walkingDetected, int runningDetected,
 	   }
 	   else
 		   tachiThreshold = recreation_get_current_level();
-
-
 	}// end if(walkingDetected || runningDetected || (position == 8))
+
+	if(tachiThreshold < TACHYTHRESHOLD)
+		tachiThreshold = TACHYTHRESHOLD;
+
+	// debug
+	/*
+	char message[64];  // remove when not debugging
+	sprintf(message, "%dI%d\r\n", tachiThreshold, tachiThreshold);
+	HAL_UART_Transmit(&huart1, (uint8_t *)message, strlen(message), 500);  // for production board
+	//*/
+
 
 	/*
 	if(walkingDetected || runningDetected || (position == 8))
@@ -152,12 +149,14 @@ void makeDiagnosis(int pulse, int walkingDetected, int runningDetected,
 		blackCounter++;
 		redCounter = 0;
 		yellowCounter = 0;
+		greencounter = 0;
 	}
 	else if(status == 3)
 	{
 		blackCounter = 0;
 		redCounter++;
 		yellowCounter = 0;
+		greencounter = 0;
 
 	}
 	else if(status == 2)
@@ -165,12 +164,14 @@ void makeDiagnosis(int pulse, int walkingDetected, int runningDetected,
 		blackCounter = 0;
 		redCounter = 0;
 		yellowCounter++;
+		greencounter = 0;
 	}
 	else
 	{
 		blackCounter = 0;
 		redCounter = 0;
 		yellowCounter = 0;
+		greencounter++;
 	}
 
 
@@ -190,8 +191,9 @@ void makeDiagnosis(int pulse, int walkingDetected, int runningDetected,
 		blackCounter = numberOfRepeatingStatesToSwitch;
 		state = 4;
 	}
-	else if(status == 1)
+	else if(greencounter >= numberOfRepeatingStatesToSwitch)
 	{
+		greencounter = numberOfRepeatingStatesToSwitch;
 		 state = 1;
 	}
 	else

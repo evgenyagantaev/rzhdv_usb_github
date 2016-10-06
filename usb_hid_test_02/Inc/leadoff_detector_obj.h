@@ -12,10 +12,10 @@
 
 #define LEADOFF_DETECTION_BUFFER_LENGTH 256
 
-static const uint32_t ABS_RANGE_LOW_BOUND = 7700000;
-static const uint32_t ABS_RANGE_UP_BOUND = 8500000;
+static const uint32_t ABS_RANGE_LOW_BOUND = 7000000;
+static const uint32_t ABS_RANGE_UP_BOUND = 11500000;
 static const uint32_t VARIATION_UP_BOUND = 700000;
-
+static const uint32_t LLTHRESHOLD = 10000000;
 
 
 static uint32_t leadoff_detection_buffer[LEADOFF_DETECTION_BUFFER_LENGTH];
@@ -26,7 +26,7 @@ static int leadoff_status = 0;  // 0 - ok, 1 - lead off
 
 static uint32_t variation;
 
-void leadoff_detector_push_new_sample(uint32_t new_sample);
+void leadoff_detector_push_new_sample(uint32_t new_sample, uint32_t ll_potential);
 
 int leadoff_detector_get_new_sample_flag();
 void leadoff_detector_drop_new_sample_flag();
@@ -37,7 +37,7 @@ int leadoff_detector_get_status();
 
 uint64_t calculate_variation();
 
-
+static uint32_t leadoff_ll_potential;
 
 
 void leadoff_detector_shift_buffer();
