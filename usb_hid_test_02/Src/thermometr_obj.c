@@ -41,7 +41,7 @@ uint32_t measure_temperature()
 
 	current_temperature = (uint32_t)(temperature * 10);
 	// kalibrovka
-	current_temperature -= 22;
+	current_temperature -= 33;
 
 	return current_temperature;
 

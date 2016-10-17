@@ -52,16 +52,18 @@ void qrs_detection_task()
 		{
 			sprintf(&message[1], "%ldI%ld\r\n", qrs_window[0], isoline_window[0]);
 			USBD_CUSTOM_HID_SendReport(&USBD_Device, (uint8_t *)message, strlen(message));
+
+			//*
+			if(markers[0] == REDMARKER)
+			{
+				HAL_Delay(2);
+				sprintf(&marker_message[1], "R\r\n");
+				USBD_CUSTOM_HID_SendReport(&USBD_Device, (uint8_t *)marker_message, strlen(marker_message));
+			}
+			//*/
 		}
 
-		//*
-		if(markers[0] == REDMARKER)
-		{
-			HAL_Delay(2);
-			sprintf(&marker_message[1], "R\r\n");
-			USBD_CUSTOM_HID_SendReport(&USBD_Device, (uint8_t *)marker_message, strlen(marker_message));
-		}
-		//*/
+
 
 
 
