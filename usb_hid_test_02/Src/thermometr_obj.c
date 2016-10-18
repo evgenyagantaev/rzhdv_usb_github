@@ -9,7 +9,7 @@
 #include "gpio.h"
 
 
-
+static uint32_t previous_temperature = 366;
 
 uint32_t measure_temperature()
 {
@@ -34,14 +34,15 @@ uint32_t measure_temperature()
 	//HAL_GPIO_WritePin(GPIOA, td_power_out_Pin, GPIO_PIN_RESET);
 	voltage /= 0.909/0.96;
 	double temperature = a*voltage*voltage + b*voltage + c;
-	//double temperature = -0.193*voltage + 212.0;
-
-
 
 
 	current_temperature = (uint32_t)(temperature * 10);
 	// kalibrovka
-	current_temperature -= 33;
+	current_temperature -= 25;
+
+	current_temperature = (current_temperature + previous_temperature) / 2;
+
+	previous_temperature = current_temperature;
 
 	return current_temperature;
 
