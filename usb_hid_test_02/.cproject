@@ -106,4 +106,5 @@
 			<resource resourceType="PROJECT" workspacePath="usb_hid_test_02"/>
 		</configuration>
 	</storageModule>
+	<storageModule moduleId="org.eclipse.cdt.make.core.buildtargets"/>
 </cproject>
