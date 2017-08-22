@@ -18,6 +18,8 @@ void rr_window_set_new_rr_ready_flag(int flag)
 
 int rr_window_get_new_rr_ready_flag(void)
 {
+
+
 	return new_rr_ready_flag;
 }
 
@@ -26,13 +28,7 @@ void rr_window_set_new_rr_interval(uint32_t interval)
 {
 	rr_window_new_rr_interval = interval;
 
-	//debug
-	//*
-	char message[64];  // remove when not debugging
-	message[0] = ADC_REPORT_ID;
-	sprintf(&message[1], "rr-window set rr interval %d\r\n", rr_window_new_rr_interval);
-	USBD_CUSTOM_HID_SendReport(&USBD_Device, (uint8_t *)message, strlen(message));
-	//*/
+
 }
 
 
@@ -66,19 +62,13 @@ uint32_t rr_window_get_rr_window(int index)
 {
 
 
-	//debug
-	//*
-	char message[64];  // remove when not debugging
-	message[0] = ADC_REPORT_ID;
-	sprintf(&message[1], "rr-window get rr window %d   %d\r\n", rr_window[index], index);
-	USBD_CUSTOM_HID_SendReport(&USBD_Device, (uint8_t *)message, strlen(message));
-	//*/
+
 
 	return rr_window[index];
 }
 uint32_t rr_window_get_sorted_rr_window(int index)
 {
-	return rr_window_sorted[index];
+		return rr_window_sorted[index];
 }
 
 void rr_window_add_new_rr_interval(void)

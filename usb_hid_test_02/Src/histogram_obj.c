@@ -95,12 +95,12 @@ void histogram_tension_index_calculate() // calculate tension
 	int current_heartrate = get_current_heartrate();
 	tension_index = rr_window_get_rr_window(RR_WINDOW_LENGTH-1);
 	//debug
-		//*
-		char message[64];  // remove when not debugging
-		message[0] = ADC_REPORT_ID;
-		sprintf(&message[1], "tension index %d\r\n", tension_index);
-		USBD_CUSTOM_HID_SendReport(&USBD_Device, (uint8_t *)message, strlen(message));
-		//*/
+	//*
+	char message[64];  // remove when not debugging
+	message[0] = ADC_REPORT_ID;
+	sprintf(&message[1], "tension index %d\r\n", tension_index);
+	USBD_CUSTOM_HID_SendReport(&USBD_Device, (uint8_t *)message, strlen(message));
+	//*/
 
 	if((current_heartrate >= 45) && (current_heartrate <= 110) && ((double)(max - min))/((double)max) < 0.3)
 	{
