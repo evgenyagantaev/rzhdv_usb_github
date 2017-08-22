@@ -224,7 +224,7 @@ int main(void)
 	  acc_data_read_task();
 	  movement_detection_task();
 	  temperature_measure_task();
-	  diagnosticsTask();
+	  diagnosticsTask(); //
 
   }
 }
