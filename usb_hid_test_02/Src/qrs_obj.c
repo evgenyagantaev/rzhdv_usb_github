@@ -12,6 +12,7 @@
 #include "qrs_obj.h"
 #include "ecg_ring_buffer.h"
 #include "heart_rate_obj.h"
+#include "rr_window_obj.h"
 
 //debug
 #include "usart.h"
@@ -202,6 +203,10 @@ void qrsDetect(void)
 
 			new_rr_interval = (r_marker - old_rmarker)*4;
 			new_rr_interval_calculated_flag = 1;
+
+			// give new rr-interval to Baevsky calculation procedure
+			rr_window_set_new_rr_ready_flag(1);
+			rr_window_set_new_rr_interval(new_rr_interval);
 
 			/*
 			// debug

@@ -80,6 +80,9 @@
 #include "leadoff_detector_obj.h"
 #include "leadoff_detection_task.h"
 
+#include "rr_window_task.h"
+#include "histogram_task.h"
+
 
 
 /* Private typedef -----------------------------------------------------------*/
@@ -225,6 +228,9 @@ int main(void)
 	  movement_detection_task();
 	  temperature_measure_task();
 	  diagnosticsTask();
+
+	  rr_window_task();
+	  histogram_task();
 
   }
 }

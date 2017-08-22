@@ -12,6 +12,7 @@
 #include "thermometr_obj.h"
 #include "leadoff_detector_obj.h"
 #include "movement_detector_obj.h"
+#include "histogram_obj.h"
 
 #include "usbd_customhid.h"
 #include "usbd_customhid_if.h"
@@ -28,6 +29,7 @@ extern UART_HandleTypeDef huart1;
 // This task performs diagnostics
 void diagnosticsTask(void *parameters)
 {
+
 
 	char statusString[STATUSSTRINGLENGTH];
 
@@ -88,7 +90,7 @@ void diagnosticsTask(void *parameters)
 				sprintf(statusString, "c%dp%03dm%dt%03dr%03dG\r\n", getStatus(), current_heartrate, motion, temperature, respiration);
 				#else
 				// print form of status string with Bayevsky tension index and hr integral
-				sprintf(statusString, "c%dp%03dm%dt%03dr%03db%03di%08ldG\r\n", getStatus(),current_heartrate, motion,temperature, respiration, 157, heart_rate_integral);
+				sprintf(statusString, "c%dp%03dm%dt%03dr%03db%03di%08ldG\r\n", getStatus(),current_heartrate, motion,temperature, respiration, histogram_get_tension_index(), heart_rate_integral);
 
 
 				#endif

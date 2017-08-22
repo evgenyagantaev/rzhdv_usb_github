@@ -8,6 +8,6 @@
 #ifndef RR_WINDOW_TASK_H_
 #define RR_WINDOW_TASK_H_
 
-
+void rr_window_task(void);
 
 #endif /* RR_WINDOW_TASK_H_ */
