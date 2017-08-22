@@ -20,6 +20,8 @@ C_SRCS += \
 ../Src/gpio.c \
 ../Src/heart_rate_calculation_task.c \
 ../Src/heart_rate_obj.c \
+../Src/histogram_obj.c \
+../Src/histogram_task.c \
 ../Src/isoline.c \
 ../Src/isoline_calculation_task.c \
 ../Src/leadoff_detection_task.c \
@@ -30,6 +32,8 @@ C_SRCS += \
 ../Src/qrs_detection_task.c \
 ../Src/qrs_obj.c \
 ../Src/recreation_curve_obj.c \
+../Src/rr_window_obj.c \
+../Src/rr_window_task.c \
 ../Src/smb380.c \
 ../Src/spi.c \
 ../Src/spi_low_level.c \
@@ -66,6 +70,8 @@ OBJS += \
 ./Src/gpio.o \
 ./Src/heart_rate_calculation_task.o \
 ./Src/heart_rate_obj.o \
+./Src/histogram_obj.o \
+./Src/histogram_task.o \
 ./Src/isoline.o \
 ./Src/isoline_calculation_task.o \
 ./Src/leadoff_detection_task.o \
@@ -76,6 +82,8 @@ OBJS += \
 ./Src/qrs_detection_task.o \
 ./Src/qrs_obj.o \
 ./Src/recreation_curve_obj.o \
+./Src/rr_window_obj.o \
+./Src/rr_window_task.o \
 ./Src/smb380.o \
 ./Src/spi.o \
 ./Src/spi_low_level.o \
@@ -112,6 +120,8 @@ C_DEPS += \
 ./Src/gpio.d \
 ./Src/heart_rate_calculation_task.d \
 ./Src/heart_rate_obj.d \
+./Src/histogram_obj.d \
+./Src/histogram_task.d \
 ./Src/isoline.d \
 ./Src/isoline_calculation_task.d \
 ./Src/leadoff_detection_task.d \
@@ -122,6 +132,8 @@ C_DEPS += \
 ./Src/qrs_detection_task.d \
 ./Src/qrs_obj.d \
 ./Src/recreation_curve_obj.d \
+./Src/rr_window_obj.d \
+./Src/rr_window_task.d \
 ./Src/smb380.d \
 ./Src/spi.d \
 ./Src/spi_low_level.d \
@@ -147,7 +159,7 @@ Src/%.o: ../Src/%.c
 	@echo 'Building file: $<'
 	@echo 'Invoking: MCU GCC Compiler'
 	@echo %cd%
-	arm-none-eabi-gcc -mcpu=cortex-m4 -mthumb -mfloat-abi=hard -mfpu=fpv4-sp-d16 -D__weak="__attribute__((weak))" -D__packed="__attribute__((__packed__))" -DUSE_HAL_DRIVER -DSTM32L476xx -I"C:/workspace/ac6_mars_workspace/l476workspace/fromcube/rzhdv/rzhdv_usb_github/usb_hid_test_02/Inc" -I"C:/workspace/ac6_mars_workspace/l476workspace/fromcube/rzhdv/rzhdv_usb_github/usb_hid_test_02/Drivers/STM32L4xx_HAL_Driver/Inc" -I"C:/workspace/ac6_mars_workspace/l476workspace/fromcube/rzhdv/rzhdv_usb_github/usb_hid_test_02/Drivers/STM32L4xx_HAL_Driver/Inc/Legacy" -I"C:/workspace/ac6_mars_workspace/l476workspace/fromcube/rzhdv/rzhdv_usb_github/usb_hid_test_02/Middlewares/ST/STM32_USB_Device_Library/Core/Inc" -I"C:/workspace/ac6_mars_workspace/l476workspace/fromcube/rzhdv/rzhdv_usb_github/usb_hid_test_02/Middlewares/ST/STM32_USB_Device_Library/Class/HID/Inc" -I"C:/workspace/ac6_mars_workspace/l476workspace/fromcube/rzhdv/rzhdv_usb_github/usb_hid_test_02/Drivers/CMSIS/Include" -I"C:/workspace/ac6_mars_workspace/l476workspace/fromcube/rzhdv/rzhdv_usb_github/usb_hid_test_02/Drivers/CMSIS/Device/ST/STM32L4xx/Include"  -O0 -g3 -Wall -fmessage-length=0 -ffunction-sections -c -fmessage-length=0 -MMD -MP -MF"$(@:%.o=%.d)" -MT"$@" -o "$@" "$<"
+	arm-none-eabi-gcc -mcpu=cortex-m4 -mthumb -mfloat-abi=hard -mfpu=fpv4-sp-d16 '-D__weak=__attribute__((weak))' '-D__packed="__attribute__((__packed__))"' -DUSE_HAL_DRIVER -DSTM32L476xx -I"C:/workspace/ac6_mars_workspace/l476workspace/fromcube/rzhdv/rzhdv_usb_github/usb_hid_test_02/Inc" -I"C:/workspace/ac6_mars_workspace/l476workspace/fromcube/rzhdv/rzhdv_usb_github/usb_hid_test_02/Drivers/STM32L4xx_HAL_Driver/Inc" -I"C:/workspace/ac6_mars_workspace/l476workspace/fromcube/rzhdv/rzhdv_usb_github/usb_hid_test_02/Drivers/STM32L4xx_HAL_Driver/Inc/Legacy" -I"C:/workspace/ac6_mars_workspace/l476workspace/fromcube/rzhdv/rzhdv_usb_github/usb_hid_test_02/Middlewares/ST/STM32_USB_Device_Library/Core/Inc" -I"C:/workspace/ac6_mars_workspace/l476workspace/fromcube/rzhdv/rzhdv_usb_github/usb_hid_test_02/Middlewares/ST/STM32_USB_Device_Library/Class/HID/Inc" -I"C:/workspace/ac6_mars_workspace/l476workspace/fromcube/rzhdv/rzhdv_usb_github/usb_hid_test_02/Drivers/CMSIS/Include" -I"C:/workspace/ac6_mars_workspace/l476workspace/fromcube/rzhdv/rzhdv_usb_github/usb_hid_test_02/Drivers/CMSIS/Device/ST/STM32L4xx/Include"  -O0 -g3 -Wall -fmessage-length=0 -ffunction-sections -c -fmessage-length=0 -MMD -MP -MF"$(@:%.o=%.d)" -MT"$@" -o "$@" "$<"
 	@echo 'Finished building: $<'
 	@echo ' '
 

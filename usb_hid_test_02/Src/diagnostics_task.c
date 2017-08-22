@@ -42,7 +42,7 @@ void diagnosticsTask(void *parameters)
 
 		if(leadoff_detector_get_status())
 		{
-			sprintf(statusString, "c%dp%03dm%dt%03dr%03dG\r\n", 0, 333, motion,	temperature, respiration);
+			sprintf(statusString, "c%dp%03dm%dt%03dr%03db%03di%08ldG\r\n", 0, 333, motion,	temperature, respiration, 0, 0);
 		}
 		else
 		{
@@ -54,12 +54,12 @@ void diagnosticsTask(void *parameters)
 				// high noice in data
 				if(getLastDisplayedPulse() == 444) // no normal pulse yet
 				{
-					sprintf(statusString, "c%dp%03dm%dt%03dr%03dG\r\n", 0, 444, motion, temperature, respiration);   // "c%dp%03dm%dt%03dr%03dG"
+					sprintf(statusString, "c%dp%03dm%dt%03dr%03db%03di%08ldG\r\n", 0, 444, motion, temperature, respiration, 0, 0);   // "c%dp%03dm%dt%03dr%03dG"
 
 				}
 				else
 				{
-					sprintf(statusString, "c%dp%03dm%dt%03dr%03dG\r\n", 0,333, motion, temperature, respiration);
+					sprintf(statusString, "c%dp%03dm%dt%03dr%03db%03di%08ldG\r\n", 0,333, motion, temperature, respiration, 0, 0);
 				}
 			}
 			else // current heartrate <= 205
@@ -68,28 +68,27 @@ void diagnosticsTask(void *parameters)
 
 				makeDiagnosis(current_heartrate, getWalkingStatus(), getRunningStatus(), getPosition());
 
-				/*
+				//*
 				//integral'naya chss
 				if(current_heartrate <= 85)
-					common.heartRateWeight = 1;
+					heart_rate_weight = 1;
 				else
-					common.heartRateWeight = (int)( 1.0 + 0.044*((double)(current_heartrate) - 85.0));
+					heart_rate_weight = (int)( 1.0 + 0.044*((double)(current_heartrate) - 85.0));
 
 				// подсчитываем интегральную чсс
-				long dI = (long)((double)current_heartrate * common.heartRateWeight);
-					common.heartRateIntegral += dI;
+				long dI = (long)((double)current_heartrate * heart_rate_weight);
+					heart_rate_integral += dI;
 				//*/
 				// end integral'naya chss
+
+#define WIDEDIAGNOSIS
 
 				#ifndef WIDEDIAGNOSIS
 				// print classic form of status string
 				sprintf(statusString, "c%dp%03dm%dt%03dr%03dG\r\n", getStatus(), current_heartrate, motion, temperature, respiration);
 				#else
 				// print form of status string with Bayevsky tension index and hr integral
-				common.movement = movementDetector.getPosition();
-				sprintf(statusString, "c%dp%03dm%dv%03db%03di%08ldG\r\n", diagnost.getStatus(),
-				   common.heartRate, movementDetector.getPosition(),
-				   temperature, respiration, (int)(rrHistogramm.getTensionIndex()), common.heartRateIntegral);
+				sprintf(statusString, "c%dp%03dm%dt%03dr%03db%03di%08ldG\r\n", getStatus(),current_heartrate, motion,temperature, respiration, 157, heart_rate_integral);
 
 
 				#endif

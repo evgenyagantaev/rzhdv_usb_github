@@ -14,5 +14,7 @@
 
 
 static uint32_t frozen_seconds_counter = 0;
+static long heart_rate_integral;
+static int heart_rate_weight;
 
 #endif /* INC_DIAGNOSTICS_TASK_H_ */
