@@ -69,18 +69,17 @@ void histogram_fill() //zapolnyaem massiv gistogrammy
 
 void histogram_tension_index_calculate() // calculate tension
 {
-	//debug
-	/*
-	char message[64];  // remove when not debugging
-	message[0] = ADC_REPORT_ID;
-	sprintf(&message[1], "tension calculation subroutine\r\n");
-	USBD_CUSTOM_HID_SendReport(&USBD_Device, (uint8_t *)message, strlen(message));
-	//*/
 
-	double min = rr_window_get_sorted_rr_window(0);
-	double max = rr_window_get_sorted_rr_window(RR_WINDOW_LENGTH-1);
+	char message[64];  // remove when not debugging
+
+	uint32_t min = rr_window_get_sorted_rr_window(0);
+	sprintf(message, "min = %d\r\n ", min);
+	HAL_UART_Transmit(&huart1, (uint8_t *)message, strlen(message), 500);  // for production board
+	uint32_t max = rr_window_get_sorted_rr_window(RR_WINDOW_LENGTH-1);
+	sprintf(message, "max = %d\r\n ", max);
+	HAL_UART_Transmit(&huart1, (uint8_t *)message, strlen(message), 500);  // for production board
 	double moda = HISTOGRAM_LOW_BOUND;
-	double moda_amplitude = 0;
+	uint32_t moda_amplitude = 0;
 
 	int i;
 	for(i=0; i<NUMBER_OF_BINS; i++)
@@ -93,23 +92,14 @@ void histogram_tension_index_calculate() // calculate tension
 	}
 
 	int current_heartrate = get_current_heartrate();
-	tension_index = rr_window_get_rr_window(RR_WINDOW_LENGTH-1);
-	//debug
-	//*
-	char message[64];  // remove when not debugging
-	message[0] = ADC_REPORT_ID;
-	sprintf(&message[1], "tension index %d\r\n", tension_index);
-	USBD_CUSTOM_HID_SendReport(&USBD_Device, (uint8_t *)message, strlen(message));
-	//*/
 
 	if((current_heartrate >= 45) && (current_heartrate <= 110) && ((double)(max - min))/((double)max) < 0.3)
 	{
 		moda_amplitude = moda_amplitude * 100.0 / RR_WINDOW_LENGTH;
 		moda = moda / 1000.0;
-		tension_index = rr_window_get_rr_window(RR_WINDOW_LENGTH-1);
-		/*
+		//*
 		if(((max - min) > 0) && (min > 200))
-			//tension_index = moda_amplitude / (2 * moda * ((max - min)/1000.0));
+			tension_index = moda_amplitude / (2.0 * moda * ((max - min)/1000.0));
 		else
 			tension_index = 0;
 		//*/
@@ -117,7 +107,8 @@ void histogram_tension_index_calculate() // calculate tension
 	else
 		tension_index = 0;
 
-
+	sprintf(message, "tension ndex = %d\r\n ", (int)tension_index);
+	HAL_UART_Transmit(&huart1, (uint8_t *)message, strlen(message), 500);  // for production board
 }
 
 int histogram_get_tension_index(void)
