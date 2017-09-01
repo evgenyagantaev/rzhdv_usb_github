@@ -42,9 +42,8 @@ void rr_window_sort_window(void)
 	int i, j;
 	int aux;
 
-	//debug
-	//*
-	char message[64];  // remove when not debugging
+	//DEBUG
+	//char message[64];  // remove when not debugging
 
 	// copy window into the sorted window
 	for(i=0; i<RR_WINDOW_LENGTH; i++)
@@ -69,11 +68,11 @@ void rr_window_sort_window(void)
 	for(i=0;i<RR_WINDOW_LENGTH; i++)
 	{
 		//debug
-		sprintf(message, "%d  ", rr_window_sorted[i]);
-		HAL_UART_Transmit(&huart1, (uint8_t *)message, strlen(message), 500);  // for production board
+		//sprintf(message, "%d  ", rr_window_sorted[i]);
+		//HAL_UART_Transmit(&huart1, (uint8_t *)message, strlen(message), 500);  // for production board
 	}
-	sprintf(message, "\r\n*****\r\n");
-	HAL_UART_Transmit(&huart1, (uint8_t *)message, strlen(message), 500);  // for production board
+	//sprintf(message, "\r\n*****\r\n");
+	//HAL_UART_Transmit(&huart1, (uint8_t *)message, strlen(message), 500);  // for production board
 }
 
 uint32_t rr_window_get_rr_window(int index)

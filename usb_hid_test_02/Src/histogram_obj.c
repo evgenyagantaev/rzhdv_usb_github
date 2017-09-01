@@ -69,15 +69,15 @@ void histogram_fill() //zapolnyaem massiv gistogrammy
 
 void histogram_tension_index_calculate() // calculate tension
 {
-
-	char message[64];  // remove when not debugging
+	// DEBUG DEBUG
+	//char message[64];  // remove when not debugging
 
 	uint32_t min = rr_window_get_sorted_rr_window(0);
-	sprintf(message, "min = %d\r\n ", min);
-	HAL_UART_Transmit(&huart1, (uint8_t *)message, strlen(message), 500);  // for production board
+	//sprintf(message, "min = %d\r\n ", min);
+	//HAL_UART_Transmit(&huart1, (uint8_t *)message, strlen(message), 500);  // for production board
 	uint32_t max = rr_window_get_sorted_rr_window(RR_WINDOW_LENGTH-1);
-	sprintf(message, "max = %d\r\n ", max);
-	HAL_UART_Transmit(&huart1, (uint8_t *)message, strlen(message), 500);  // for production board
+	//sprintf(message, "max = %d\r\n ", max);
+	//HAL_UART_Transmit(&huart1, (uint8_t *)message, strlen(message), 500);  // for production board
 	double moda = HISTOGRAM_LOW_BOUND;
 	uint32_t moda_amplitude = 0;
 
@@ -99,16 +99,18 @@ void histogram_tension_index_calculate() // calculate tension
 		moda = moda / 1000.0;
 		//*
 		if(((max - min) > 0) && (min > 200))
+		{
 			tension_index = moda_amplitude / (2.0 * moda * ((max - min)/1000.0));
-		else
-			tension_index = 0;
+			if(tension_index > 999.0)
+				tension_index = 999.0;
+		}
 		//*/
 	}
-	else
-		tension_index = 0;
+	//else
+		//tension_index = 0;
 
-	sprintf(message, "tension ndex = %d\r\n ", (int)tension_index);
-	HAL_UART_Transmit(&huart1, (uint8_t *)message, strlen(message), 500);  // for production board
+	//sprintf(message, "tension ndex = %d\r\n ", (int)tension_index);
+	//HAL_UART_Transmit(&huart1, (uint8_t *)message, strlen(message), 500);  // for production board
 }
 
 int histogram_get_tension_index(void)
