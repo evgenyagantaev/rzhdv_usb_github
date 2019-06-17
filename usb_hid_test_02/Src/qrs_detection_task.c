@@ -45,8 +45,9 @@ void qrs_detection_task()
 		/*
 		if(markers[0] == REDMARKER)
 			HAL_UART_Transmit(&huart1, "R\r\n", 3, 500);  // for production board
+		//*/
 
-		/*
+		//*
 		//debug
 		if(qrs_detection_task_get_test_flag())
 		{
