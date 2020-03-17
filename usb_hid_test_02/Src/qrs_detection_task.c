@@ -57,7 +57,9 @@ void qrs_detection_task()
 			if(markers[0] == REDMARKER)
 			{
 				HAL_Delay(2);
-				sprintf(&marker_message[1], "R\r\n");
+				uint32_t systick_counter;
+				systick_counter = HAL_GetTick();
+				sprintf(&marker_message[1], "R %010d\r\n");
 				USBD_CUSTOM_HID_SendReport(&USBD_Device, (uint8_t *)marker_message, strlen(marker_message));
 			}
 		}
