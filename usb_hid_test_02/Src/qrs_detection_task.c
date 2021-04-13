@@ -59,7 +59,7 @@ void qrs_detection_task()
 				HAL_Delay(2);
 				uint32_t systick_counter;
 				systick_counter = HAL_GetTick();
-				sprintf(&marker_message[1], "R %010d\r\n");
+				sprintf(&marker_message[1], "R %010d\r\n", systick_counter);
 				USBD_CUSTOM_HID_SendReport(&USBD_Device, (uint8_t *)marker_message, strlen(marker_message));
 			}
 		}
