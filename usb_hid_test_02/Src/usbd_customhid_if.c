@@ -49,6 +49,12 @@
 #include "usbd_customhid_if.h"
 #include "qrs_detection_task.h"
 
+//debug
+#include "usart.h"
+extern UART_HandleTypeDef huart1;
+
+static char debug_message[64];
+
 /* Private typedef -----------------------------------------------------------*/
 /* Private define ------------------------------------------------------------*/
 /* Private macro -------------------------------------------------------------*/
@@ -255,9 +261,17 @@ static int8_t CustomHID_OutEvent  (uint8_t event_idx, uint8_t state)
 	//*/
 
 	if(state == 't')
+	{
 		qrs_detection_task_set_test_flag();
+		sprintf(debug_message, "tt command received\r\n");
+		HAL_UART_Transmit(&huart1, (uint8_t *)debug_message, strlen(debug_message), 500);
+	}
 	else if(state == 's')
+	{
 		qrs_detection_task_drop_test_flag();
+		sprintf(debug_message, "ss command received\r\n");
+		HAL_UART_Transmit(&huart1, (uint8_t *)debug_message, strlen(debug_message), 500);
+	}
 
 	return (0);
 
