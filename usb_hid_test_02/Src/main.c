@@ -89,6 +89,10 @@
 /* Private define ------------------------------------------------------------*/
 /* Private macro -------------------------------------------------------------*/
 /* Private variables ---------------------------------------------------------*/
+
+//DEBUG
+uint32_t saved_tick = 0;
+
 UART_HandleTypeDef huart1;
 UART_HandleTypeDef huart2;
 SPI_HandleTypeDef hspi1;

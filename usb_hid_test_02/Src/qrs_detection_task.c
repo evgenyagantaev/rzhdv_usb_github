@@ -11,6 +11,8 @@
 #include "usbd_customhid_if.h"
 #include "usbd_customhid.h"
 
+//DEBUG
+extern uint32_t saved_tick;
 
 //debug
 #include "usart.h"
@@ -59,8 +61,14 @@ void qrs_detection_task()
 				HAL_Delay(2);
 				uint32_t systick_counter;
 				systick_counter = HAL_GetTick();
-				sprintf(&marker_message[1], "R %010lu\r\n", systick_counter);
+				//sprintf(&marker_message[1], "R %010lu\r\n", systick_counter);
+				//DEBUG *****************************************************
+				uint32_t rr_interval = systick_counter - saved_tick;
+				sprintf(&marker_message[1], "R %010lu %010lu\r\n", systick_counter, rr_interval);
 				USBD_CUSTOM_HID_SendReport(&USBD_Device, (uint8_t *)marker_message, strlen(marker_message));
+
+				//DEBUG
+				saved_tick = systick_counter;
 			}
 		}
 		//*/
