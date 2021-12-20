@@ -26,6 +26,10 @@ extern UART_HandleTypeDef huart1;
 #include "gpio.h"
 
 
+//#define WIDEDIAGNOSIS_CPMTRBI
+#define CRUS_PROTOCOL_CPMTRB
+
+
 // This task performs diagnostics
 void diagnosticsTask(void *parameters)
 {
@@ -44,7 +48,11 @@ void diagnosticsTask(void *parameters)
 
 		if(leadoff_detector_get_status())
 		{
+#ifndef WIDEDIAGNOSIS_CPMTRBI
+			sprintf(statusString, "c%dp%03dm%dt%03dr%03db%03dG\r\n", 0, 333, motion,	temperature, respiration, 0);
+#else
 			sprintf(statusString, "c%dp%03dm%dt%03dr%03db%03di%08ldG\r\n", 0, 333, motion,	temperature, respiration, 0, 0);
+#endif
 		}
 		else
 		{
@@ -56,12 +64,20 @@ void diagnosticsTask(void *parameters)
 				// high noice in data
 				if(getLastDisplayedPulse() == 444) // no normal pulse yet
 				{
-					sprintf(statusString, "c%dp%03dm%dt%03dr%03db%03di%08ldG\r\n", 0, 444, motion, temperature, respiration, 0, 0);   // "c%dp%03dm%dt%03dr%03dG"
+#ifndef WIDEDIAGNOSIS_CPMTRBI
+					sprintf(statusString, "c%dp%03dm%dt%03dr%03db%03dG\r\n", 0, 444, motion,	temperature, respiration, 0);
+#else
+					sprintf(statusString, "c%dp%03dm%dt%03dr%03db%03di%08ldG\r\n", 0, 444, motion,	temperature, respiration, 0, 0);
+#endif
 
 				}
 				else
 				{
-					sprintf(statusString, "c%dp%03dm%dt%03dr%03db%03di%08ldG\r\n", 0,333, motion, temperature, respiration, 0, 0);
+#ifndef WIDEDIAGNOSIS_CPMTRBI
+					sprintf(statusString, "c%dp%03dm%dt%03dr%03db%03dG\r\n", 0, 444, motion,	temperature, respiration, 0);
+#else
+					sprintf(statusString, "c%dp%03dm%dt%03dr%03db%03di%08ldG\r\n", 0, 444, motion,	temperature, respiration, 0, 0);
+#endif
 				}
 			}
 			else // current heartrate <= 205
@@ -83,17 +99,15 @@ void diagnosticsTask(void *parameters)
 				//*/
 				// end integral'naya chss
 
-#define WIDEDIAGNOSIS
 
-				#ifndef WIDEDIAGNOSIS
+
+#ifndef WIDEDIAGNOSIS_CPMTRBI
 				// print classic form of status string
-				sprintf(statusString, "c%dp%03dm%dt%03dr%03dG\r\n", getStatus(), current_heartrate, motion, temperature, respiration);
-				#else
+				sprintf(statusString, "c%dp%03dm%dt%03dr%03db%03dG\r\n", getStatus(), current_heartrate, motion, temperature, respiration, histogram_get_tension_index());
+#else
 				// print form of status string with Bayevsky tension index and hr integral
 				sprintf(statusString, "c%dp%03dm%dt%03dr%03db%03di%08ldG\r\n", getStatus(),current_heartrate, motion,temperature, respiration, histogram_get_tension_index(), heart_rate_integral);
-
-
-				#endif
+#endif
 			}
 		}
 
