@@ -45,6 +45,11 @@ void diagnosticsTask(void *parameters)
 		int motion = getPosition();
 		int respiration = 17;
 		int temperature = get_current_temperature();
+		// fix the accidents when temperature greater then 999
+		while(temperature >= 1000)
+		{
+			temperature /= 10;
+		}
 
 		if(leadoff_detector_get_status())
 		{
